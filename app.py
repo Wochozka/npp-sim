@@ -13,23 +13,23 @@ sim_loop = SimLoop(socketio)
 
 @app.route("/")
 def index():
-return render_template("index.html")
+    return render_template("index.html")
 
 
 @app.route("/api/state")
 def api_state():
-return jsonify(sim_loop.export_state())
+    return jsonify(sim_loop.export_state())
 
 
 @app.post("/api/command")
 def api_command():
-data = request.get_json(force=True)
-cmd = data.get("cmd")
-args = data.get("args", {})
-ok, msg = sim_loop.handle_command(cmd, **args)
-return jsonify({"ok": ok, "msg": msg, "state": sim_loop.export_state()})
+    data = request.get_json(force=True)
+    cmd = data.get("cmd")
+    args = data.get("args", {})
+    ok, msg = sim_loop.handle_command(cmd, **args)
+    return jsonify({"ok": ok, "msg": msg, "state": sim_loop.export_state()})
 
 
 if __name__ == "__main__":
-sim_loop.start()
-socketio.run(app, host="0.0.0.0", port=5000)
+    sim_loop.start()
+    socketio.run(app, host="0.0.0.0", port=5000)
