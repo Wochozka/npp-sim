@@ -1,0 +1,57 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>NPP Simulator</title>
+<style>
+body{font-family:system-ui,Segoe UI,Roboto,Ubuntu,Arial,sans-serif;max-width:1100px;margin:0 auto;padding:16px;background:#0b0f13;color:#e6e9ef}
+.card{background:#121821;border:1px solid #1e2733;border-radius:12px;padding:16px;margin:12px 0}
+.row{display:flex;gap:12px;flex-wrap:wrap}
+.col{flex:1 1 300px}
+label{display:block;font-size:12px;color:#9fb0c3;margin-bottom:4px}
+input[type=range]{width:100%}
+.value{font-variant-numeric:tabular-nums}
+button{background:#1e88e5;color:white;border:0;padding:8px 12px;border-radius:10px}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.kv{display:flex;justify-content:space-between;border-bottom:1px dashed #263445;padding:4px 0}
+</style>
+<script src="https://cdn.socket.io/4.7.5/socket.io.min.js" integrity="sha384-T4s6jKQ4w9hO1b8JwspGVgqIc5C2nA2j3W6l1lJpQWZ5E0QvKpM4v3h3iJ48Q6re" crossorigin="anonymous"></script>
+</head>
+<body>
+<h1>NPP Simulator</h1>
+<div class="row">
+<div class="col card">
+<h3>Setpoints</h3>
+<label>Power setpoint <span class="value" id="v_power_sp">1.00</span></label>
+<input id="power_sp" type="range" min="0" max="3" step="0.01" value="1" />
+<label>Coolant flow setpoint <span class="value" id="v_flow_sp">1.00</span></label>
+<input id="flow_sp" type="range" min="0.2" max="1.6" step="0.01" value="1" />
+<div style="margin-top:8px;display:flex;gap:8px">
+<button onclick="cmd('scram')">SCRAM</button>
+<button onclick="cmd('reset')">Reset</button>
+</div>
+</div>
+<div class="col card">
+<h3>Live state</h3>
+<div class="grid">
+<div class="kv"><span>Power P</span><span id="pP" class="value">—</span></div>
+<div class="kv"><span>Reactivity ρ</span><span id="pRho" class="value">—</span></div>
+<div class="kv"><span>Fuel temp T<sub>fuel</sub> [K]</span><span id="pT" class="value">—</span></div>
+<div class="kv"><span>Rod pos</span><span id="pRod" class="value">—</span></div>
+<div class="kv"><span>Coolant flow</span><span id="pFlow" class="value">—</span></div>
+<div class="kv"><span>SCRAM</span><span id="pScram" class="value">—</span></div>
+</div>
+</div>
+</div>
+
+
+<div class="card">
+<h3>Trendy (posíláno 10 Hz Socket.IO)</h3>
+<canvas id="chartP" width="1000" height="220"></canvas>
+</div>
+
+
+<script src="/static/main.js"></script>
+</body>
+</html>
